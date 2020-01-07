@@ -15,6 +15,7 @@ see blog post: https://ericlondon.com/2019/01/13/rails-5-api-react-bootstrap-cru
 
 - rails version: 5.2.2 -> 6.0.2.1
 
+- api/posts_controller.rb -> api/v1/posts_controller.rb
 
 ## TODO
 

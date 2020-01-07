@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::PostsController < ApplicationController
+class Api::V1::PostsController < ApplicationController
   before_action :set_post, only: %i[show update destroy]
 
   def index
