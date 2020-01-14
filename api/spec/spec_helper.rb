@@ -14,7 +14,21 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require 'rspec_api_documentation'
 require 'factory_bot'
+
+require 'simplecov'
+if ENV['CIRCLE_ARTIFACTS']
+  dir = File.join(ENV['CIRCLE_ARTIFACTS'], 'coverage')
+  SimpleCov.coverage_dir(dir)
+end
+SimpleCov.start 'rails'
+SimpleCov.minimum_coverage 1 # 80
+
+RspecApiDocumentation.configure do |config|
+  # config.format = %i[json combined_text]
+  config.format = :api_blueprint
+end
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

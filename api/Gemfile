@@ -35,9 +35,18 @@ group :development, :test do
   gem 'pry-doc'
   gem 'pry'
 
+  gem 'brakeman'
+  gem 'rubocop'
   gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'capybara'
+
+  gem 'rspec_api_documentation'
+  gem 'rails-erd'
+  gem 'simplecov', require: false
+  gem 'factory_bot_rails'
+  gem 'seed-fu'
+  gem 'metric_fu', git: 'https://github.com/bergholdt/metric_fu.git'
 end
 
 group :development do

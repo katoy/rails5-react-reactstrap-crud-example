@@ -26,7 +26,7 @@ const collectErrors = (response) => {
 
 const deletePost = (id) => {
   let response_ok = null
-  return fetch(`${apiHost}/api/posts/${id}`, {
+  return fetch(`${apiHost}/api/v1/posts/${id}`, {
     method: 'delete',
     headers: {
       'Content-Type': 'application/json'
@@ -51,7 +51,7 @@ const deletePost = (id) => {
 
 const getPosts = () => {
   let response_ok = null
-  return fetch(`${apiHost}/api/posts`, {
+  return fetch(`${apiHost}/api/v1/posts`, {
       method: 'get',
       headers: {
         'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ const getPosts = () => {
 
 const getPost = (id) => {
   let response_ok = null
-  return fetch(`${apiHost}/api/posts/${id}`, {
+  return fetch(`${apiHost}/api/v1/posts/${id}`, {
     method: 'get',
     headers: {
       'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ const getPost = (id) => {
 }
 
 const savePost = (data, id=null) => {
-  let apiUrl = `${apiHost}/api/posts`
+  let apiUrl = `${apiHost}/api/v1/posts`
   let apiMethod = 'post'
   if (id) {
     apiUrl = `${apiUrl}/${id}`
