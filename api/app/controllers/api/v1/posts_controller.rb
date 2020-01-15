@@ -4,7 +4,7 @@ class Api::V1::PostsController < ApplicationController
   before_action :set_post, only: %i[show update destroy]
 
   def index
-    render json: Post.all
+    render json: Post.order(created_at: :desc).all
   end
 
   def show
@@ -12,12 +12,13 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def create
-    post = Post.new(post_params)
+    @post = Post.new(post_params)
 
-    if post.save
-      render json: post, status: :created
+    if @post.invalid?
+      render(json: @post.errors, status: :unprocessable_entity)
     else
-      render json: post.errors, status: :unprocessable_entity
+      @post.save!
+      render json: @post, status: :created
     end
   end
 
@@ -31,15 +32,18 @@ class Api::V1::PostsController < ApplicationController
 
   def destroy
     @post.destroy
+    head :no_content
   end
 
   private
 
   def set_post
     @post = Post.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Post does not exist' }, status: :not_found
   end
 
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.permit(:title, :body)
   end
 end

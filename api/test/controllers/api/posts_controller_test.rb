@@ -12,7 +12,7 @@ class Api::PostsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create post" do
     assert_difference('Post.count') do
-      post api_posts_url, params: { post: {  } }, as: :json
+      post api_posts_url, params: { post: {} }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class Api::PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update post" do
-    patch api_post_url(@post), params: { post: {  } }, as: :json
+    patch api_post_url(@post), params: { post: {} }, as: :json
     assert_response 200
   end
 

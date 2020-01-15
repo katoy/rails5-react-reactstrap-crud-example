@@ -12,7 +12,7 @@ resource 'Posts' do
   let(:raw_post) { params.to_json }
 
   let(:post) do
-    Task.create(title: 'Old Title', body: 'Old Body')
+    Post.create(title: 'Old Title', body: 'Old Body')
   end
 
   shared_examples_for 'ステータスとボディ' do |label|
@@ -44,8 +44,8 @@ resource 'Posts' do
       let(:request) { { title: 'New Title', body: 'New Body' } }
 
       context '成功' do
-        let(:expected_status) { 200 }
-        let(:expected_body) {  Post.last.to_json }
+        let(:expected_status) { 201 }
+        let(:expected_body) { Post.last.to_json }
 
         it_should_behave_like 'ステータスとボディ', ' 正当なパラメータ'
       end
@@ -53,9 +53,9 @@ resource 'Posts' do
       context 'エラー 1' do
         let(:request) { { title: '', body: '' } }
         let(:request) {}
-        let(:expected_status) { 400 }
+        let(:expected_status) { 422 }
         let(:expected_body) do
-          { title: ["can't be blank"],  body: ["can't be blank"] }.to_json
+          { title: ["can't be blank"], body: ["can't be blank"] }.to_json
         end
 
         it_should_behave_like 'ステータスとボディ', '不正（empty）'
@@ -63,7 +63,7 @@ resource 'Posts' do
 
       context 'エラー 2' do
         let(:request) { { title: '1' * 257, body: '1' * 1025 } }
-        let(:expected_status) { 400 }
+        let(:expected_status) { 422 }
         let(:expected_body) do
           {
             title: ['is too long (maximum is 256 characters)'],
@@ -106,7 +106,7 @@ resource 'Posts' do
     parameter :body, '概要',
               required: true, type: 'string', example: 'XX機能について'
     put 'ポスト更新' do
-      let(:id) { task.id }
+      let(:id) { post.id }
       let(:request) { { title: 'New Title', body: 'New Body' } }
 
       context '成功' do
@@ -126,25 +126,12 @@ resource 'Posts' do
 
       context 'エラー_2' do
         let(:request) { { title: '', body: '' } }
-        let(:expected_status) { 400 }
+        let(:expected_status) { 422 }
         let(:expected_body) do
           { title: ["can't be blank"], body: ["can't be blank"] }.to_json
         end
 
         it_should_behave_like 'ステータスとボディ', '不正（empty）'
-      end
-
-      context 'エラー_3' do
-        let(:request) { { title: task2.title, body: task2.body } }
-        let(:post2) do
-          Task.create(title: 'x Old Title', body: 'x Old Body')
-        end
-        let(:expected_status) { 400 }
-        let(:expected_body) do
-          { description: ['has already been taken'] }.to_json
-        end
-
-        it_should_behave_like 'ステータスとボディ', '不正（uniqness）'
       end
     end
   end
@@ -165,7 +152,7 @@ resource 'Posts' do
       context 'エラー' do
         let(:id) { 'a' }
         let(:expected_status) { 404 }
-        let(:expected_body) { { error: 'Task does not exist' }.to_json }
+        let(:expected_body) { { error: 'Post does not exist' }.to_json }
 
         it_should_behave_like 'ステータスとボディ', '不正（id）'
       end

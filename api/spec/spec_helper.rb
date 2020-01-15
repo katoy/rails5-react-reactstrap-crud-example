@@ -14,7 +14,9 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require 'rails_helper'
 require 'rspec_api_documentation'
+require 'rspec_api_documentation/dsl'
 require 'factory_bot'
 
 require 'simplecov'
@@ -28,6 +30,10 @@ SimpleCov.minimum_coverage 1 # 80
 RspecApiDocumentation.configure do |config|
   # config.format = %i[json combined_text]
   config.format = :api_blueprint
+  # config.format = :open_api
+  config.request_body_formatter = :json
+  config.request_headers_to_include = %w[Content-Type Accept]
+  config.response_headers_to_include = %w[Content-Type]
 end
 
 RSpec.configure do |config|

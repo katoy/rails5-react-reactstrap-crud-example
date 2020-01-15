@@ -23,13 +23,14 @@ see blog post: https://ericlondon.com/2019/01/13/rails-5-api-react-bootstrap-cru
 
 - doker (web, db)
 
-- rspec 追加
-
-- schemaspy 追加
-
 - openapi の導入
 
 - Locust の導入
+
+- CircleCI と github 上のページにバッジの配置
+
+- forntend の テスト (coverage, screnncast, scrennshot)
+
 
 ## DB の初期化と、アプリの起動
 
@@ -53,9 +54,50 @@ $ open http://localhost:3000
 
 ```
 $ cd api
-$ bundle exec rake metrice
-$ opne tmp/metric_fu/output/index.html
+$ bundle exec rake metrics:all
+$ open tmp/metric_fu/output/index.html
 ```
+
+## documentation (blueprint)
+
+```
+$ npm install -g aglio
+$ bundle exec rails docs:generate
+
+then
+  $ aglio -i doc/api/index.apib -o doc/api/index.html
+  ($ aglio -i doc/api/index.apib -o doc/api/index.html --theme-template triple --theme-variables flatly)
+  $ open doc/api/index.html
+or
+  $ aglio -i doc/api/index.apib -s
+  then access http://localhost:3000
+```
+
+rails docs:generate 時に unexpected token at '[binary data]'
+のようなエラーがでたら、
+gems/rspec_api_documentation-6.1.0/lib/rspec_api_documentation/client_base.rb
+中にある [binary data] をせっていている部分を無恋にしてやる事。
+
+aglio 実行時に次のようなエラーがでたら、cache  ファイルを mkdir してやること。
+
+```
+Error: Could not get CSS: Error writing cached CSS to file: ENOENT: no such file or directory, open '/usr/local/lib/node_modules/aglio/node_modules/aglio-theme-olio/cache/bb851236ef33e467631256487d5bbe519de24415.css'
+```
+
+## documentation (apinapi)
+
+TODO
+
+## documentation (ER図)
+
+DB 構造のドキュメントは以下のようにして生成し、閲覧ができる。
+
+```bash
+$ cd schemaspy
+$ ./run.sh
+$ open output/index.html
+```
+
 
 ## brakeman
 
@@ -71,6 +113,18 @@ $ (bundle exec rspec)
 $ open coverage/index.html
 $ open screenshots/*.png
 ```
+
+テストの実行 (chrome headless で起動して system テストも行っている)
+system テストで失敗すると、画面のスクリーンショットが ./tmp 以下に保存される。
+いくつかのテストでは、成功した場合は、./scrennshots 以下に保存されるようにしてある。
+
+```bash
+$ brew cask install chromedriver
+$ bundle exec rails spec
+$ open coverage/index.html
+$ open z/*.png
+```
+
 
 ## See also
 

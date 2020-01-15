@@ -1,0 +1,319 @@
+FORMAT: 1A
+# API Documentation
+
+# Group Posts
+
+Posts resource
+
+## ポスト削除 [/api/v1/posts/{id}]
+
++ Parameters
+  + id: 1 (required, number) - ポストID
+
+### ポスト削除 [DELETE]
+
++ Request  正当なパラメータ (application/json)
+
+    + Headers
+
+            Accept: application/json
+
+    + Body
+
+            {
+            }
+
++ Response 204 ()
+
++ Request 不正（id） (application/json)
+
+    + Headers
+
+            Accept: application/json
+
+    + Body
+
+            {
+            }
+
++ Response 404 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            {
+              "error": "Post does not exist"
+            }
+
+## タスクの一覧 [/api/v1/posts]
+
+### ポストの一覧 [GET]
+
++ Request  正当なパラメータ (application/json)
+
+    + Headers
+
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            [
+              {
+                "id": 213,
+                "title": "title_2",
+                "body": "body_2",
+                "created_at": "2020-01-15T14:25:46.320Z",
+                "updated_at": "2020-01-15T14:25:46.320Z"
+              },
+              {
+                "id": 212,
+                "title": "title_1",
+                "body": "body_1",
+                "created_at": "2020-01-15T14:25:46.318Z",
+                "updated_at": "2020-01-15T14:25:46.318Z"
+              }
+            ]
+
+## タスク内容 [/api/v1/posts/{id}]
+
++ Parameters
+  + id: 1 (required, number) - ポストID
+
+### ポスト内容 [GET]
+
++ Request  正当なパラメータ (application/json)
+
+    + Headers
+
+            Accept: application/json
+
++ Response 200 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            {
+              "id": 215,
+              "title": "Old Title",
+              "body": "Old Body",
+              "created_at": "2020-01-15T14:25:46.362Z",
+              "updated_at": "2020-01-15T14:25:46.362Z"
+            }
+
++ Request 不正（id） (application/json)
+
+    + Headers
+
+            Accept: application/json
+
++ Response 404 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            {
+              "error": "Post does not exist"
+            }
+
+## ポスト登録 [/api/v1/posts{?title,body}]
+
++ Parameters
+  + title: レビュー (required, string) - タイトル
+  + body: XX機能について (required, string) - 概要
+
+### ポスト登録 [POST]
+
++ Request  正当なパラメータ (application/json)
+
+    + Headers
+
+            Accept: application/json
+
+    + Body
+
+            {
+              "title": "New Title",
+              "body": "New Body"
+            }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            {
+              "id": 214,
+              "title": "New Title",
+              "body": "New Body",
+              "created_at": "2020-01-15T14:25:46.344Z",
+              "updated_at": "2020-01-15T14:25:46.344Z"
+            }
+
++ Request 不正（empty） (application/json)
+
+    + Headers
+
+            Accept: application/json
+
+    + Body
+
+            {
+            }
+
++ Response 422 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            {
+              "title": [
+                "can't be blank"
+              ],
+              "body": [
+                "can't be blank"
+              ]
+            }
+
++ Request 不正（too_long） (application/json)
+
+    + Headers
+
+            Accept: application/json
+
+    + Body
+
+            {
+              "title": "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
+              "body": "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
+            }
+
++ Response 422 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            {
+              "title": [
+                "is too long (maximum is 256 characters)"
+              ],
+              "body": [
+                "is too long (maximum is 1024 characters)"
+              ]
+            }
+
+## ポスト更新 [/api/v1/posts/{id}{?title,body}]
+
++ Parameters
+  + id: 1 (required, number) - ポストID
+  + title: レビュー (required, string) - タイトル
+  + body: XX機能について (required, string) - 概要
+
+### ポスト更新 [PUT]
+
++ Request  正当なパラメータ (application/json)
+
+    + Headers
+
+            Accept: application/json
+
+    + Body
+
+            {
+              "title": "New Title",
+              "body": "New Body"
+            }
+
++ Response 200 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            {
+              "id": 216,
+              "title": "New Title",
+              "body": "New Body",
+              "created_at": "2020-01-15T14:25:46.371Z",
+              "updated_at": "2020-01-15T14:25:46.374Z"
+            }
+
++ Request 不正（empty） (application/json)
+
+    + Headers
+
+            Accept: application/json
+
+    + Body
+
+            {
+              "title": "",
+              "body": ""
+            }
+
++ Response 422 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            {
+              "title": [
+                "can't be blank"
+              ],
+              "body": [
+                "can't be blank"
+              ]
+            }
+
++ Request 不正（id） (application/json)
+
+    + Headers
+
+            Accept: application/json
+
+    + Body
+
+            {
+              "title": "New Title",
+              "body": "New Body"
+            }
+
++ Response 404 (application/json)
+
+    + Headers
+
+            
+
+    + Body
+
+            {
+              "error": "Post does not exist"
+            }
